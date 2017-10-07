@@ -58,8 +58,8 @@ function getTemperature() {
         return 'not found';
     }
 
-    var content = fs.readFileSync(filename, 'utf8');
-    content = content.replace(/\n$/, '');
+    var temperature = fs.readFileSync(filename, 'utf8');
+    temperature = temperature.replace(/\n$/, '');
 
-    return content;
+    return parseFloat(temperature / 1000).toFixed(2);
 }
