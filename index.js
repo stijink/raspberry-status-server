@@ -18,7 +18,7 @@ http.createServer(function(request, response) {
 
       uptime: parseInt(os.uptime() / (60 * 60 * 24)),
 
-      load: parseFloat(os.loadavg()[1]).toFixed(2),
+      load: parseFloat(os.loadavg()[1].toFixed(2)),
 
       processes: parseInt(getNumberOfProcesses()),
 
