@@ -7,7 +7,7 @@ ENV PATH=/root/.yarn/bin:$PATH
 # Install yarn
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
-# Install pm2
-RUN yarn global add pm2
+# Install nodemon
+RUN yarn global add nodemon
 
 EXPOSE 9360

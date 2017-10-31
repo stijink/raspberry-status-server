@@ -4,7 +4,7 @@ services:
     build: .
     image: stijink/raspberry-status-server
     working_dir: /var/www/
-    command: pm2 start index.js --no-daemon --watch
+    command: nodemon index.js
     ports:
       - "9360:9360"
     volumes:
