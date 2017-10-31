@@ -3,6 +3,8 @@ const accesslog = require('access-log');
 const execSync  = require('child_process').execSync;
 const fs        = require('fs');
 const os        = require("os");
+const diskspace = require('fd-diskspace');
+
 
 const port      = 9360;
 
@@ -34,7 +36,9 @@ http.createServer(function(request, response) {
           used:     inMegabyte(os.totalmem() - os.freemem()),
           free:     inMegabyte(os.freemem()),
           percent:  (100 - parseFloat((os.freemem() * 100) / os.totalmem()).toFixed(2))
-      }
+      },
+
+      disks: diskspace.diskSpaceSync().disks
   }
   ));
 
