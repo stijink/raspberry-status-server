@@ -60,7 +60,7 @@ function getModel() {
         return 'unknown';
     }
 
-    model = fs.readFileSync(filename, 'utf8');
+    model = fs.readFileSync(filename, 'ascii');
     model.replace(/\0/g, '');
 
     return model;
