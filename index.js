@@ -60,10 +60,8 @@ function getModel() {
         return 'unknown';
     }
 
-    model = fs.readFileSync(filename, 'ascii');
-    model.replace(/\0/g, '');
-
-    return model;
+    model = fs.readFileSync(filename, 'utf8');
+    return model.replace(/\u0000/g, '');
 }
 
 function getOperatingSystem() {
