@@ -4,7 +4,7 @@ const fs        = require('fs');
 const os        = require("os");
 const diskspace = require('fd-diskspace');
 
-const port      = process.env.APP_PORT;
+const port      = 9360;
 
 console.log('started raspberry-status-server at port ' + port);
 console.log(getOperatingSystem());
