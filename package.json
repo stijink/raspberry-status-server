@@ -5,7 +5,6 @@
   "author": "Stephan Tijink",
   "license": "MIT",
   "dependencies": {
-    "access-log": "^0.3.9",
     "fd-diskspace": "^1.0.0"
   }
 }

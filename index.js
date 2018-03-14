@@ -1,22 +1,24 @@
 const http      = require('http');
-const accesslog = require('access-log');
 const execSync  = require('child_process').execSync;
 const fs        = require('fs');
 const os        = require("os");
 const diskspace = require('fd-diskspace');
 
-
-const port      = 9360;
+const port      = process.env.APP_PORT;
 
 console.log('started raspberry-status-server at port ' + port);
+console.log(getOperatingSystem());
 
 http.createServer(function(request, response) {
 
   response.setHeader('Content-Type', 'application/json');
-
   response.end(JSON.stringify(
   {
       hostname: os.hostname(),
+
+      model: getModel(),
+
+      operatingsystem: getOperatingSystem(),
 
       uptime: parseInt(os.uptime() / (60 * 60 * 24)),
 
@@ -41,9 +43,6 @@ http.createServer(function(request, response) {
       disks: diskspace.diskSpaceSync().disks
   }
   ));
-
-  accesslog(request, response);
-
 }).listen(port);
 
 function inMegabyte(bytes) {
@@ -52,6 +51,28 @@ function inMegabyte(bytes) {
 
 function getNumberOfProcesses() {
     return execSync('ps aux | wc -l').toString().replace('\n', '');
+}
+
+function getModel() {
+    const filename = '/proc/device-tree/model';
+
+    if (! fs.existsSync(filename)) {
+        return 'unknown';
+    }
+
+    return fs.readFileSync(filename, 'utf8');
+}
+
+function getOperatingSystem() {
+    const filename = '/etc/os-release';
+
+    if (! fs.existsSync(filename)) {
+        return 'unknown';
+    }
+
+    const content = fs.readFileSync(filename, 'utf8');
+    const regexp  = /PRETTY_NAME="(.*)"/g;
+    return regexp.exec(content)[1];
 }
 
 function getTemperature() {

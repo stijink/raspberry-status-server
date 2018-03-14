@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-access-log@^0.3.9:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/access-log/-/access-log-0.3.9.tgz#01c2695ba7e7d32db5288ef3f14e64d6719f3ad1"
-  dependencies:
-    strftime "~0.6.2"
-
 fd-diskspace@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fd-diskspace/-/fd-diskspace-1.0.0.tgz#7ebbb8a0f426dc61c6dabba213a22a4d4221f64f"
-
-strftime@~0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/strftime/-/strftime-0.6.2.tgz#da4c12073cebee3cd60f4821940cc27b19d348a1"

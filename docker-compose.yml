@@ -1,11 +1,15 @@
 version: '3'
 services:
   raspberry-status-server:
-    build: .
+    build:
+      context: ./build
+      dockerfile: Dockerfile
     image: stijink/raspberry-status-server
     working_dir: /var/www/
     command: nodemon index.js
+    environment:
+      - APP_PORT
     ports:
-      - "9360:9360"
+      - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/var/www/
