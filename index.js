@@ -7,7 +7,6 @@ const diskspace = require('fd-diskspace');
 const port = 9360;
 
 console.log('started raspberry-status-server at port ' + port);
-console.log(getOperatingSystem());
 
 http.createServer(function (request, response) {
 
@@ -16,6 +15,7 @@ http.createServer(function (request, response) {
     response.setHeader('Access-Control-Request-Method', '*');
     response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
     response.setHeader('Access-Control-Allow-Headers', '*');
+    
     if (request.method === 'OPTIONS') {
         response.writeHead(200);
         response.end();
