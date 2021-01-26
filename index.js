@@ -80,8 +80,8 @@ function getNetworkInterfaces() {
     const statusWLAN = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "wlan0"').toString();
 
     return {
-        'status_eth0':  statusLAN === 'UP',
-        'status_wlan0': statusWLAN === 'UP',
+        'status_eth0':  statusLAN.includes('UP'),
+        'status_wlan0': statusWLAN.includes('UP'),
     };
 }
 
