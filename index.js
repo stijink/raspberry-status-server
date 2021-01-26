@@ -56,7 +56,10 @@ http.createServer(function (request, response) {
 
             disks: diskspace.diskSpaceSync().disks,
 
-            network: getNetworkInterfaces(),
+            network: {
+                lan_connected:  isNetworkInterfaceConnected('eth0'),
+                wlan_connected: isNetworkInterfaceConnected('wlan0'),
+            },
         }
     ));
 }).listen(port);
@@ -75,26 +78,14 @@ function getCPUMaxSpeed() {
     return parseInt(fs.readFileSync(filename, 'utf8')) / 1000;
 }
 
-function getNetworkInterfaces() {
+function isNetworkInterfaceConnected(interface) {
 
     try {
-        const statusLAN    = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "eth0"').toString();
-        const lanConnected = statusLAN.includes('UP');
+        const status    = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "' +  interface + '"').toString();
+        return status.includes('UP');
     } catch (e) {
-        const lanConnected = false;
+        return false;
     }
-
-    try {
-        const statusWLAN    = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "wlan0"').toString();
-        const wlanConnected = statusWLAN.includes('UP');
-    } catch (e) {
-        const wlanConnected = false;
-    }
-
-    return {
-        'lan_connected':  lanConnected,
-        'wlan_connected': wlanConnected,
-    };
 }
 
 function getNumberOfProcesses() {
