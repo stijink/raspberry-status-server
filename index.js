@@ -15,7 +15,7 @@ http.createServer(function (request, response) {
     response.setHeader('Access-Control-Request-Method', '*');
     response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
     response.setHeader('Access-Control-Allow-Headers', '*');
-    
+
     if (request.method === 'OPTIONS') {
         response.writeHead(200);
         response.end();
@@ -38,6 +38,8 @@ http.createServer(function (request, response) {
             processes: parseInt(getNumberOfProcesses()),
 
             temperature: parseFloat(getTemperature()),
+
+            has_poe: hasPoeAdapter(),
 
             cpu: {
                 cores: os.cpus().length,
@@ -99,4 +101,10 @@ function getTemperature() {
     temperature = temperature.replace(/\n$/, '');
 
     return parseFloat(temperature / 1000).toFixed(2);
+}
+
+function hasPoeAdapter() {
+
+    const filename = '/sys/class/thermal/cooling_device0/cur_state';
+    return fs.existsSync(filename);
 }
