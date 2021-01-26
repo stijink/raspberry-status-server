@@ -54,7 +54,9 @@ http.createServer(function (request, response) {
                 percent: (100 - parseFloat((os.freemem() * 100) / os.totalmem()).toFixed(2))
             },
 
-            disks: diskspace.diskSpaceSync().disks
+            disks: diskspace.diskSpaceSync().disks,
+
+            network: getNetworkInterfaces(),
         }
     ));
 }).listen(port);
@@ -71,6 +73,16 @@ function getCPUMaxSpeed() {
     }
 
     return parseInt(fs.readFileSync(filename, 'utf8')) / 1000;
+}
+
+function getNetworkInterfaces() {
+    const statusLAN  = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "eth0"').toString();
+    const statusWLAN = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "wlan0"').toString();
+
+    return {
+        'status_eth0':  statusLAN === 'UP',
+        'status_wlan0': statusWLAN === 'UP',
+    };
 }
 
 function getNumberOfProcesses() {
