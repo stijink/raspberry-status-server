@@ -35,7 +35,7 @@ http.createServer(function (request, response) {
 
             load: parseFloat(os.loadavg()[1].toFixed(2)),
 
-            processes: parseInt(getNumberOfProcesses()),
+            num_processes: parseInt(getNumberOfProcesses()),
 
             temperature: parseFloat(getTemperature()),
 
@@ -43,7 +43,8 @@ http.createServer(function (request, response) {
 
             cpu: {
                 cores: os.cpus().length,
-                speed: os.cpus()[0].speed
+                current_speed: os.cpus()[0].speed,
+                max_speed: getCPUMaxSpeed(),
             },
 
             memory: {
@@ -60,6 +61,16 @@ http.createServer(function (request, response) {
 
 function inMegabyte(bytes) {
     return parseInt(bytes / 1000 / 1000);
+}
+
+function getCPUMaxSpeed() {
+    const filename = '/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq';
+
+    if (!fs.existsSync(filename)) {
+        return 0;
+    }
+
+    return parseInt(fs.readFileSync(filename, 'utf8'));
 }
 
 function getNumberOfProcesses() {
