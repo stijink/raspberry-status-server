@@ -70,7 +70,7 @@ function getCPUMaxSpeed() {
         return 0;
     }
 
-    return parseInt(fs.readFileSync(filename, 'utf8'));
+    return parseInt(fs.readFileSync(filename, 'utf8')) / 1000;
 }
 
 function getNumberOfProcesses() {
