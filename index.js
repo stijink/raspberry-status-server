@@ -76,12 +76,24 @@ function getCPUMaxSpeed() {
 }
 
 function getNetworkInterfaces() {
-    const statusLAN  = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "eth0"').toString();
-    const statusWLAN = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "wlan0"').toString();
+
+    try {
+        const statusLAN    = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "eth0"').toString();
+        const lanConnected = statusLAN.includes('UP');
+    } catch (e) {
+        const lanConnected = false;
+    }
+
+    try {
+        const statusWLAN    = execSync('ip -o link show | awk \'{print $2,$9}\' | grep "wlan0"').toString();
+        const wlanConnected = statusWLAN.includes('UP');
+    } catch (e) {
+        const wlanConnected = false;
+    }
 
     return {
-        'lan_connected':  statusLAN.includes('UP'),
-        'wlan_connected': statusWLAN.includes('UP'),
+        'lan_connected':  lanConnected,
+        'wlan_connected': wlanConnected,
     };
 }
 
